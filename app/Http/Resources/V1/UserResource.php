@@ -21,12 +21,14 @@ class UserResource extends JsonResource
                 'email'      => $this->email,
                 'first_name' => $this->first_name,
                 'last_name'  => $this->last_name,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at
+                $this->mergeWhen(
+                    $request->routeIs('users.*'),
+                    [
+                        'created_at' => $this->created_at,
+                        'updated_at' => $this->updated_at
+                    ]
+                ),
             ]
-            // 'links' => [
-            //     'self' => route('ip-addresses.show', ['ip-address' => $this->id])
-            // ]
         ];
     }
 }

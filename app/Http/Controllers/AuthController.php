@@ -33,12 +33,7 @@ class AuthController extends Controller
      */
     public function check()
     {
-        try {
-            auth()->userOrFail();
-            return response()->json(['message' => 'Authenticated'], 200);
-        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        return $this->service->check();
     }
 
     /**

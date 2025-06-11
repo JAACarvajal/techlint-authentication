@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class AuthService extends BaseService
 {
+
+    /**
+     * Check if user is authenticated
+     */
+    public function check(): JsonResponse
+    {
+        try {
+            $user = auth()->userOrFail();
+            return self::responseSuccess(new UserResource($user), HttpCodes::OK);
+        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
+            return self::responseError('Unauthorized', HttpCodes::UNAUTHORIZED);
+        } catch (\Exception $e) {
+            return self::handleException($e);
+        }
+    }
+
     /**
      * User login
      *
