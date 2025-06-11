@@ -1,20 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\V1;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\{LoginUserRequest, StoreUserRequest};
+use App\Http\Requests\V1\LoginRequest;
 use App\Services\AuthService;
-use Illuminate\Http\{JsonResponse, Request};
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Summary of AuthController
  */
 class AuthController extends Controller
 {
+    /**
+     * Auth service instance
+     * @var
+     */
     private $service;
 
+    /**
+     * Create auth controller instance
+     *
+     * @param AuthService $service Auth service instance
+     */
     public function __construct(AuthService $service)
     {
         $this->service = $service;
@@ -36,9 +44,9 @@ class AuthController extends Controller
     /**
      * User login
      *
-     * @param LoginUserRequest $request Request instance
+     * @param LoginRequest $request Request instance
      */
-    public function login(LoginUserRequest $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         return $this->service->login($request->input('data.attributes'));
     }
@@ -54,14 +62,5 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->service->refresh();
-    }
-    /**
-     * User registration
-     *
-     * @param StoreUserRequest $request Request instance
-     */
-    public function register(StoreUserRequest $request): JsonResponse
-    {
-        return $this->service->register($request->input('data.attributes'));
     }
 }
