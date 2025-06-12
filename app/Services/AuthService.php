@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 
 class AuthService extends BaseService
 {
-
     /**
      * Check if user is authenticated
      */

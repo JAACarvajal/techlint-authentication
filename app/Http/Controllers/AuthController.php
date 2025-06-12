@@ -7,9 +7,6 @@ use App\Http\Requests\V1\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
-/**
- * Summary of AuthController
- */
 class AuthController extends Controller
 {
     /**
