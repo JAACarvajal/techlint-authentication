@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Permissions\Abilities;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,9 +43,20 @@ class User extends Authenticatable implements JWTSubject
     protected function casts(): array
     {
         return [
+            'id'                => 'string',
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 
     /**
@@ -58,12 +70,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
+     * Get the user's permissions based on their role
      */
-    public function getJWTCustomClaims()
+    public function getPermissionsAttribute(): array
     {
-        return [];
+        return Abilities::getAbilities($this);
     }
 }

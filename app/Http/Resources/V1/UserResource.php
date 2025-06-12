@@ -22,6 +22,13 @@ class UserResource extends JsonResource
                 'first_name' => $this->first_name,
                 'last_name'  => $this->last_name,
                 $this->mergeWhen(
+                    $request->routeIs('auth.check'),
+                    [
+                        'is_admin'    => $this->is_admin,
+                        'permissions' => $this->permissions,
+                    ]
+                ),
+                $this->mergeWhen(
                     $request->routeIs('users.*'),
                     [
                         'created_at' => $this->created_at,

@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Constants\HttpCodes;
-use App\Http\Resources\V1\UserResource;
-use App\Repositories\UserRepository;
+use App\Http\Resources\V1\{AuthResource, UserResource};
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 
 class AuthService extends BaseService
 {
@@ -18,6 +16,7 @@ class AuthService extends BaseService
     {
         try {
             $user = auth()->userOrFail();
+
             return self::responseSuccess(new UserResource($user), HttpCodes::OK);
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
             return self::responseError('Unauthorized', HttpCodes::UNAUTHORIZED);
@@ -40,7 +39,7 @@ class AuthService extends BaseService
                 return self::responseError('Unauthorized', HttpCodes::UNAUTHORIZED);
             }
 
-            return self::responseSuccess(['token' => $token], HttpCodes::CREATED);
+            return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             return self::responseError('Failed to create token');
         } catch (\Exception $e) {
@@ -70,7 +69,7 @@ class AuthService extends BaseService
         try {
             $token = auth()->refresh();
 
-            return self::responseSuccess(['token' => $token], HttpCodes::OK);
+            return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
             return self::responseError('Token has expired and can no longer be refreshed', HttpCodes::UNAUTHORIZED);
         }catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
