@@ -33,16 +33,10 @@ class UserService extends BaseService
      */
     public function create(array $data): JsonResponse
     {
-        try {
-            $user = DB::transaction(function () use ($data) {
-                return $this->repository->create($data);
-            });
+        $user = DB::transaction(function () use ($data) {
+            return $this->repository->create($data);
+        });
 
-            return self::responseSuccess(new UserResource($user), HttpCodes::CREATED);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return self::handleException($e);
-        } catch (\Exception $e) {
-            return self::handleException($e);
-        }
+        return self::responseSuccess(new UserResource($user), HttpCodes::CREATED);
     }
 }

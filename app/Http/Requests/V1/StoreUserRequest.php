@@ -7,23 +7,6 @@ use App\Http\Requests\V1\BaseUserRequest;
 class StoreUserRequest extends BaseUserRequest
 {
     /**
-     * Determine if the user is authorized to make this request
-     * No authorization check is needed here
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Required ability for the request
-     */
-    protected function requiredAbility(): string
-    {
-        return 'create:user';
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>

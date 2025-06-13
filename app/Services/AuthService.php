@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Constants\HttpCodes;
 use App\Http\Resources\V1\{AuthResource, UserResource};
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 
 class AuthService extends BaseService
@@ -13,15 +14,9 @@ class AuthService extends BaseService
      */
     public function check(): JsonResponse
     {
-        try {
-            $user = auth()->userOrFail();
+        $user = auth()->userOrFail();
 
-            return self::responseSuccess(new UserResource($user), HttpCodes::OK);
-        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
-            return self::responseError('Unauthorized', HttpCodes::UNAUTHORIZED);
-        } catch (\Exception $e) {
-            return self::handleException($e);
-        }
+        return self::responseSuccess(new UserResource($user), HttpCodes::OK);
     }
 
     /**
@@ -31,19 +26,13 @@ class AuthService extends BaseService
      */
     public function login(array $data): JsonResponse
     {
-        try {
-            $token = auth()->attempt($data);
+        $token = auth()->attempt($data);
 
-            if (!$token) {
-                return self::responseError('Unauthorized', HttpCodes::UNAUTHORIZED);
-            }
-
-            return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
-        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return self::responseError('Failed to create token');
-        } catch (\Exception $e) {
-            return self::handleException($e);
+        if (!$token) {
+            throw new AuthorizationException('Invalid credentials.');
         }
+
+        return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
     }
 
     /**
@@ -51,13 +40,9 @@ class AuthService extends BaseService
      */
     public function logout(): JsonResponse
     {
-        try {
-            auth()->logout();
+        auth()->logout();
 
-            return self::responseWithMessage(message: 'Successfully logged out', code: HttpCodes::NO_CONTENT);
-        } catch (\Exception $e) {
-            return self::handleException($e);
-        }
+        return self::responseWithMessage(message: 'Successfully logged out', code: HttpCodes::NO_CONTENT);
     }
 
     /**
@@ -65,16 +50,8 @@ class AuthService extends BaseService
      */
     public function refresh(): JsonResponse
     {
-        try {
-            $token = auth()->refresh();
+        $token = auth()->refresh();
 
-            return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
-        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            return self::responseError('Token has expired and can no longer be refreshed', HttpCodes::UNAUTHORIZED);
-        }catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return self::responseError('Failed to refresh token');
-        } catch (\Exception $e) {
-            return self::handleException($e);
-        }
+        return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
     }
 }
