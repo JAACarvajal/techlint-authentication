@@ -17,6 +17,7 @@ final class Abilities
     public const UpdateUser = 'update:user';
     public const DeleteUser = 'delete:user';
     public const ViewUser = 'view:user';
+    public const LoginUser = 'login:user';
 
     /**
      * Abilities for the user based on their role
@@ -36,12 +37,14 @@ final class Abilities
                 self::UpdateUser,
                 self::DeleteUser,
                 self::ViewUser,
+                self::LoginUser
             ];
         } else {
             return [
                 self::CreateIpAddress,
                 self::UpdateIpAddress,
                 self::ViewIpAddress,
+                self::LoginUser
             ];
         }
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\LoginRequest;
+use App\Http\Requests\V1\LoginUserRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
@@ -36,11 +36,11 @@ class AuthController extends Controller
     /**
      * User login
      *
-     * @param LoginRequest $request Request instance
+     * @param LoginUserRequest $request Request instance
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginUserRequest $request): JsonResponse
     {
-        return $this->service->login($request->input('data.attributes'));
+        return $this->service->login($request->mappedAttributes());
     }
 
     public function logout()

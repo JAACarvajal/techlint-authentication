@@ -35,6 +35,6 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
-        return $this->service->create($request->input('data.attributes'));
+        return $this->service->create($request->mappedAttributes());
     }
 }
