@@ -16,7 +16,7 @@ trait AuthMetadata
     {
         return [
             'auth' => [
-                'id' => auth()->user()->id,
+                'id' => auth()->user()?->id ?? $request->attributes->get('user_id'),
             ]
         ];
     }

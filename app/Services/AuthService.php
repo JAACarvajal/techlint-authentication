@@ -6,6 +6,7 @@ use App\Constants\HttpCodes;
 use App\Http\Resources\V1\{AuthResource, UserResource};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuthService extends BaseService
 {
@@ -40,9 +41,16 @@ class AuthService extends BaseService
      */
     public function logout(): JsonResponse
     {
+        request()->attributes->set('user_id', auth()->id());
+
         auth()->logout();
 
-        return self::responseSuccess([], HttpCodes::NO_CONTENT);
+        return self::responseSuccess(
+            JsonResource::make(null)->additional([
+                'meta' => $this->withAuthMetadata(request())
+            ]),
+            HttpCodes::OK
+        );
     }
 
     /**
