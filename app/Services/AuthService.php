@@ -42,7 +42,7 @@ class AuthService extends BaseService
     {
         auth()->logout();
 
-        return self::responseWithMessage(message: 'Successfully logged out', code: HttpCodes::NO_CONTENT);
+        return self::responseSuccess([], HttpCodes::NO_CONTENT);
     }
 
     /**
