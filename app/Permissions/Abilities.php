@@ -10,14 +10,11 @@ final class Abilities
     public const CreateIpAddress = 'create:ip_address';
     public const UpdateIpAddress = 'update:ip_address';
     public const DeleteIpAddress = 'delete:ip_address';
-    public const ViewIpAddress = 'view:ip_address';
 
     // User abilities
     public const CreateUser = 'create:user';
     public const UpdateUser = 'update:user';
     public const DeleteUser = 'delete:user';
-    public const ViewUser = 'view:user';
-    public const LoginUser = 'login:user';
 
     /**
      * Abilities for the user based on their role
@@ -31,20 +28,15 @@ final class Abilities
                 self::CreateIpAddress,
                 self::UpdateIpAddress,
                 self::DeleteIpAddress,
-                self::ViewIpAddress,
 
                 self::CreateUser,
                 self::UpdateUser,
                 self::DeleteUser,
-                self::ViewUser,
-                self::LoginUser
             ];
         } else {
             return [
                 self::CreateIpAddress,
                 self::UpdateIpAddress,
-                self::ViewIpAddress,
-                self::LoginUser
             ];
         }
     }
