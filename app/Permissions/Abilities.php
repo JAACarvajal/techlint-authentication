@@ -10,6 +10,7 @@ final class Abilities
     public const CreateIpAddress = 'create:ip_address';
     public const UpdateIpAddress = 'update:ip_address';
     public const DeleteIpAddress = 'delete:ip_address';
+    public const ViewIpAddress = 'view:ip_address';
 
     // User abilities
     public const CreateUser = 'create:user';
@@ -28,6 +29,7 @@ final class Abilities
                 self::CreateIpAddress,
                 self::UpdateIpAddress,
                 self::DeleteIpAddress,
+                self::ViewIpAddress,
 
                 self::CreateUser,
                 self::UpdateUser,
@@ -37,6 +39,7 @@ final class Abilities
             return [
                 self::CreateIpAddress,
                 self::UpdateIpAddress,
+                self::ViewIpAddress,
             ];
         }
     }
