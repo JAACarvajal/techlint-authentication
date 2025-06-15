@@ -17,6 +17,8 @@ final class Abilities
     public const UpdateUser = 'update:user';
     public const DeleteUser = 'delete:user';
 
+    public const ViewAuditLog = 'view:audit_log';
+
     /**
      * Abilities for the user based on their role
      *
@@ -34,6 +36,8 @@ final class Abilities
                 self::CreateUser,
                 self::UpdateUser,
                 self::DeleteUser,
+
+                self::ViewAuditLog
             ];
         } else {
             return [
