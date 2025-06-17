@@ -7,6 +7,7 @@ use App\Http\Resources\V1\{AuthResource, UserResource};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService extends BaseService
 {
@@ -58,7 +59,7 @@ class AuthService extends BaseService
      */
     public function refresh(): JsonResponse
     {
-        $token = auth()->refresh();
+        $token = JWTAuth::parseToken()->refresh();
 
         return self::responseSuccess(new AuthResource($token), HttpCodes::CREATED);
     }

@@ -27,7 +27,7 @@ class ExceptionHandler
         AuthorizationException::class    => 'handleAuthorizationException',
         HttpException::class             => 'handleHttpException',
         JWTException::class              => 'handleJWTException',
-        UserNotDefinedException::class   => 'handleAuthenticationException',
+        UserNotDefinedException::class   => 'handleUserNotDefinedException',
         ModelNotFoundException::class    => 'handleNotFoundException',
         NotFoundHttpException::class     => 'handleNotFoundException',
         TokenExpiredException::class     => 'handleJWTExpiredException',
@@ -40,7 +40,7 @@ class ExceptionHandler
      * Handle authentication exceptions
      */
     public function handleAuthenticationException(
-        AuthenticationException|AccessDeniedHttpException|UserNotDefinedException $e,
+        AuthenticationException|AccessDeniedHttpException $e,
         Request $request
     ): JsonResponse
     {
@@ -54,6 +54,23 @@ class ExceptionHandler
                 'timestamp' => now()->toISOString(),
             ]
         ], HttpCodes::UNAUTHORIZED);
+    }
+
+    /**
+     * Handle user not defind auth exception
+     */
+    public function handleUserNotDefinedException(UserNotDefinedException $e, Request $request): JsonResponse
+    {
+        $this->logException($e, 'Authentication error: User not found');
+
+        return self::responseError([
+            'error' => [
+                'type'      => $this->getExceptionClass($e),
+                'status'    => HttpCodes::NOT_FOUND,
+                'message'   => 'Authentication failed. Please log in again.',
+                'timestamp' => now()->toISOString(),
+            ]
+        ], HttpCodes::NOT_FOUND);
     }
 
     /**
