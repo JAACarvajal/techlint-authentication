@@ -14,19 +14,23 @@ class StoreUserRequest extends BaseUserRequest
     public function rules(): array
     {
         return [
-            'data.attributes.first_name'       => 'required|string',
-            'data.attributes.last_name'        => 'required|string',
-            'data.attributes.email'            => 'required|email|unique:users,email',
-            'data.attributes.password'         => 'string',
-            'data.attributes.confirm_password' => 'string'
+            'data.attributes.first_name' => 'required|string',
+            'data.attributes.last_name'  => 'required|string',
+            'data.attributes.email'      => 'required|email|unique:users,email',
+            'data.attributes.password'   => 'required|string',
         ];
     }
 
-    public function messages(): array
+    /**
+     * Override attributes
+     */
+    public function attributes(): array
     {
         return [
-            'data.attributes.first_name.required' => 'The data.attributes.first_name field is required.',
-            'data.attributes.last_name.required'  => 'The data.attributes.last_name field is required.'
+            'data.attributes.first_name' => 'first name',
+            'data.attributes.last_name'  => 'last name',
+            'data.attributes.email'      => 'email address',
+            'data.attributes.password'   => 'password',
         ];
     }
 }
