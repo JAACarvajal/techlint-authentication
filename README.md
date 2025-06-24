@@ -1,4 +1,4 @@
-# IP Management Service Setup Guide
+# Authentication Service Setup Guide
 
 ## Prerequisites
 
