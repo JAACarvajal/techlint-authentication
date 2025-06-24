@@ -94,7 +94,7 @@ Make sure you have the following installed on your system:
    - Make sure to get the **token** from the authentication service (using login endpoint) and use it in the authorization tab
 
 4. **Send requests:**  
-   - Select an endpoint from the `IP Management` folder in Postman.
+   - Select an endpoint from the `Authentication` folder in Postman.
    - Fill in any required parameters or request bodies.
    - Click **Send** to test the endpoint
 
