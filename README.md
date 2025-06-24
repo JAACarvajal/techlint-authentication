@@ -60,7 +60,7 @@ Make sure you have the following installed on your system:
 
 6. **Run migrations**
     ```sh
-    # Go inside the app-techlint-ip-management container then run:
+    # Go inside the app-techlint-authentication container then run:
     php artisan migrate --seed
     ```
 
